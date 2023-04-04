@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pet/calendar.dart';
+import 'package:pet/newtodo.dart';
+import 'package:pet/settings.dart';
 import 'package:pet/todo.dart';
 import 'package:pet/water.dart';
 import 'package:pet/weather/weather.dart';
-import 'package:pet/weather/weather_json.dart';
 import 'package:provider/provider.dart';
-
-import 'newtodo.dart';
 
 class TodoList extends StatelessWidget {
   const TodoList({Key? key}) : super(key: key);
@@ -14,6 +13,7 @@ class TodoList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(primarySwatch: Colors.lime),
       home: Scaffold(
         drawer: const DrawerAppBar(),
         appBar: AppBar(
@@ -65,8 +65,9 @@ class DrawerAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Colors.orange[300],
       child: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.fromLTRB(20, 80, 20, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -109,7 +110,10 @@ class DrawerAppBar extends StatelessWidget {
                 style: TextStyle(fontSize: 25, color: Colors.indigo),
               ),
               leading: const Icon(Icons.settings),
-              onTap: (() {}),
+              onTap: (() {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const Settings()));
+              }),
             ),
           ],
         ),

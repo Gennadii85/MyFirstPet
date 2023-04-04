@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pet/todolist.dart';
+import 'package:pet/weather/weather.dart';
 import 'package:provider/provider.dart';
 
 DateTime dateTime = DateTime.now();
@@ -28,13 +29,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowMaterialGrid: false,
+      // debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blueGrey),
-      debugShowCheckedModeBanner: false,
-      home:
-          //  const TodoList(), //вернуть стартовую TodoList
-          //  const Water(),
-          const TodoList(),
+      home: const WeatherScreen(),
     );
   }
 }

@@ -5,7 +5,6 @@ import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:pet/todolist.dart';
 
-
 class Water extends StatefulWidget {
   const Water({
     Key? key,
@@ -102,7 +101,9 @@ class WaterState extends State<Water> {
                       context: context,
                       builder: (context) => SimpleDialog(
                         children: [
-                          Center(child: Text('это ${man.round()} % нормы воды для мужчин')),
+                          Center(
+                              child: Text(
+                                  'это ${man.round()} % нормы воды для мужчин')),
                           TextButton(
                               onPressed: () {
                                 Navigator.pop(context);
@@ -127,7 +128,9 @@ class WaterState extends State<Water> {
                       context: context,
                       builder: (context) => SimpleDialog(
                         children: [
-                          Center(child: Text('это ${man.round()} % нормы воды для женщин')),
+                          Center(
+                              child: Text(
+                                  'это ${man.round()} % нормы воды для женщин')),
                           TextButton(
                               onPressed: () {
                                 Navigator.pop(context);
@@ -163,7 +166,7 @@ class WaterState extends State<Water> {
               lineWidth: 20,
               animation: true,
               animationDuration: 500,
-              progressColor: Color.fromARGB(255, 34, 221, 105),
+              progressColor: const Color.fromARGB(255, 34, 221, 105),
               center: Text(
                 '${(percent * 100).round()} %',
                 style: const TextStyle(
