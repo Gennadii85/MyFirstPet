@@ -1,45 +1,170 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-class Settings extends StatelessWidget {
+import 'package:pet/todolist.dart';
+
+class Settings extends StatefulWidget {
   const Settings({super.key});
+
+  @override
+  State<Settings> createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  var settingTheme = ThemeData(primarySwatch: Colors.grey);
+
+  setTheme(color) {
+    setState(() {
+      settingTheme = ThemeData(primarySwatch: color);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primarySwatch: Colors.grey),
+      theme: settingTheme,
       home: Scaffold(
+        drawer: const DrawerAppBar(),
         appBar: AppBar(
           title: const Text('Settings'),
-          leading: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(Icons.arrow_back)),
-        ),
-        body: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text('Color theme'),
-              ],
-            ),
-            Row(children: [
-              Container(color: Colors.amber),
-              Container(color: Colors.blueAccent),
-              Container(color: Colors.greenAccent),
-              Container(color: Colors.redAccent),
-            ]),
-            const Divider(height: 20, color: Colors.black),
-            Row(children: const [Text('Units')]),
-            Row(
-              children: [
-                TextButton(onPressed: () {}, child: const Text('mll')),
-                TextButton(onPressed: () {}, child: const Text('L')),
-              ],
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: FilledButton(
+                  onPressed: () {
+                    // сохранение параметров
+                  },
+                  style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll<Color>(
+                        Color.fromARGB(255, 93, 151, 199)),
+                  ),
+                  child: const Text(
+                    'Save',
+                    style: TextStyle(color: Colors.black, fontSize: 20),
+                  )),
             )
           ],
         ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Text(
+                  'Color theme',
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  ColorTheme(
+                    color: Colors.amber,
+                    namecolor: 'Amber',
+                    coolbackTheme: setTheme,
+                  ),
+                  ColorTheme(
+                    color: Colors.indigo,
+                    namecolor: 'Blue',
+                    coolbackTheme: setTheme,
+                  ),
+                  ColorTheme(
+                    color: Colors.green,
+                    namecolor: 'Green',
+                    coolbackTheme: setTheme,
+                  ),
+
+                  //   Row(
+                  //     children: [
+                  //       Container(
+                  //           color: Colors.amber,
+                  //           child: const Text('Amber theme')),
+                  //     ],
+                  //   ),
+                  //   Row(
+                  //     children: [
+                  //       Container(
+                  //           color: Colors.blueAccent,
+                  //           child: const Text('BlueAccent theme')),
+                  //     ],
+                  //   ),
+                  //   Row(
+                  //     children: [
+                  //       Container(
+                  //           color: Colors.greenAccent,
+                  //           child: const Text('GreenAccent theme')),
+                  //     ],
+                  //   ),
+                  //   Row(
+                  //     children: [
+                  //       Container(
+                  //           color: Colors.redAccent,
+                  //           child: const Text('RedAccent theme')),
+                  //       ColorTheme(
+                  //         color: Colors.redAccent,
+                  //         apply: false,
+                  //       ),
+                  //     ],
+                  //   ),
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(25.0),
+              child: Divider(
+                height: 20,
+                thickness: 2,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ColorTheme extends StatefulWidget {
+  Color color;
+  String namecolor;
+  final Function coolbackTheme;
+
+  ColorTheme({
+    Key? key,
+    required this.color,
+    required this.namecolor,
+    required this.coolbackTheme,
+  }) : super(key: key);
+
+  @override
+  State<ColorTheme> createState() => _ColorThemeState();
+}
+
+class _ColorThemeState extends State<ColorTheme> {
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: widget.color,
+      elevation: 5,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            padding: const EdgeInsets.fromLTRB(60, 0, 0, 0),
+            child: Text(widget.namecolor),
+          ),
+          IconButton(
+            onPressed: () {
+              widget.coolbackTheme(widget.color);
+            },
+            icon: const Icon(Icons.done_outline),
+          ),
+        ],
       ),
     );
   }

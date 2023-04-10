@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pet/todolist.dart';
-import 'package:pet/weather/weather.dart';
+import 'package:pet/settings.dart';
 import 'package:provider/provider.dart';
 
 DateTime dateTime = DateTime.now();
@@ -31,7 +30,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       // debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blueGrey),
-      home: const WeatherScreen(),
+      home: const Settings(),
     );
   }
 }
