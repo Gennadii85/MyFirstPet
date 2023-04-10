@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pet/settings.dart';
+import 'package:pet/todolist.dart';
 import 'package:provider/provider.dart';
 
 DateTime dateTime = DateTime.now();
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       // debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blueGrey),
-      home: const Settings(),
+      home: const TodoList(),
     );
   }
 }
