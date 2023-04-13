@@ -129,11 +129,11 @@ class _SettingsState extends State<Settings> {
 }
 
 class ColorTheme extends StatefulWidget {
-  Color color;
-  String namecolor;
+  final Color color;
+  final String namecolor;
   final Function coolbackTheme;
 
-  ColorTheme({
+  const ColorTheme({
     Key? key,
     required this.color,
     required this.namecolor,
