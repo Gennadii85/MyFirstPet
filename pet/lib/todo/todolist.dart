@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:pet/calendar.dart';
-import 'package:pet/newtodo.dart';
 import 'package:pet/settings.dart';
-import 'package:pet/todo.dart';
+import 'package:pet/todo/newtodo.dart';
+import 'package:pet/todo/todo.dart';
 import 'package:pet/water.dart';
 import 'package:pet/weather/weather.dart';
-import 'package:provider/provider.dart';
 
 class TodoList extends StatelessWidget {
   const TodoList({Key? key}) : super(key: key);

@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-import 'package:pet/todolist.dart';
+import 'package:pet/todo/todolist.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});

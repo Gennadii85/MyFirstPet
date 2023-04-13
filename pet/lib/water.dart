@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:pet/todolist.dart';
+import 'package:pet/todo/todolist.dart';
 
 class Water extends StatefulWidget {
   const Water({
