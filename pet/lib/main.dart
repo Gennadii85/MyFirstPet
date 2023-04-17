@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pet/todo/todolist.dart';
+import 'package:pet/water.dart';
 import 'package:provider/provider.dart';
 
 DateTime dateTime = DateTime.now();
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       // debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blueGrey),
-      home: const TodoList(),
+      home: const Water(),
     );
   }
 }

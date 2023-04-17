@@ -3,7 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:pet/todo/todolist.dart';
+import 'package:pet/drawerappbar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Water extends StatefulWidget {
   const Water({
@@ -15,13 +16,34 @@ class Water extends StatefulWidget {
 }
 
 class WaterState extends State<Water> {
-  num water = 0;
-  String mll = 'mll';
-  String L = 'L';
+  int water = 0;
+  final String mll = 'mll';
+  final String L = 'L';
   bool status = true;
-  int water_rate_man = 3000; //mll
-  int water_rate_woman = 2000; //mll
+  final int water_rate_man = 3000; //mll
+  final int water_rate_woman = 2000; //mll
   num man = 0;
+  late SharedPreferences prefs;
+
+  @override
+  void initState() {
+    super.initState();
+    initSharedPreferences();
+  }
+
+  initSharedPreferences() async {
+    prefs = await SharedPreferences.getInstance();
+    getWater();
+  }
+
+  getWater() {
+    water = prefs.getInt('waterkey') ?? 0;
+    setState(() {});
+  }
+
+  Future setWater() async {
+    await prefs.setInt('waterkey', water);
+  }
 
   man_rate() {
     setState(() {
@@ -55,6 +77,7 @@ class WaterState extends State<Water> {
         water = (volume / 1000) + water;
       }
     });
+    setWater();
   }
 
   mlltoL() {
@@ -63,7 +86,7 @@ class WaterState extends State<Water> {
       water = water * 1000;
     }
     if (status == false) {
-      water = water / 1000;
+      water = (water / 1000).round();
     }
   }
 
@@ -198,6 +221,7 @@ class WaterState extends State<Water> {
                   onPressed: () {
                     setState(() {
                       water = 0;
+                      prefs.clear();
                     });
                   },
                   child: const Text('Reset'),

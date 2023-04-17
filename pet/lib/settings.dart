@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-
-import 'package:pet/todo/todolist.dart';
+import 'package:pet/drawerappbar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -17,6 +17,12 @@ class _SettingsState extends State<Settings> {
     setState(() {
       settingTheme = ThemeData(primarySwatch: color);
     });
+  }
+
+  int aaaa = 0;
+  Future<void> getWater() async {
+    final preferences = await SharedPreferences.getInstance();
+    aaaa = (preferences.getInt('waterkey') ?? 5);
   }
 
   @override
@@ -78,39 +84,6 @@ class _SettingsState extends State<Settings> {
                     namecolor: 'Green',
                     coolbackTheme: setTheme,
                   ),
-
-                  //   Row(
-                  //     children: [
-                  //       Container(
-                  //           color: Colors.amber,
-                  //           child: const Text('Amber theme')),
-                  //     ],
-                  //   ),
-                  //   Row(
-                  //     children: [
-                  //       Container(
-                  //           color: Colors.blueAccent,
-                  //           child: const Text('BlueAccent theme')),
-                  //     ],
-                  //   ),
-                  //   Row(
-                  //     children: [
-                  //       Container(
-                  //           color: Colors.greenAccent,
-                  //           child: const Text('GreenAccent theme')),
-                  //     ],
-                  //   ),
-                  //   Row(
-                  //     children: [
-                  //       Container(
-                  //           color: Colors.redAccent,
-                  //           child: const Text('RedAccent theme')),
-                  //       ColorTheme(
-                  //         color: Colors.redAccent,
-                  //         apply: false,
-                  //       ),
-                  //     ],
-                  //   ),
                 ],
               ),
             ),
@@ -121,6 +94,12 @@ class _SettingsState extends State<Settings> {
                 thickness: 2,
               ),
             ),
+            TextButton(
+              child: Text(aaaa.toString()),
+              onPressed: () {
+                getWater();
+              },
+            )
           ],
         ),
       ),
