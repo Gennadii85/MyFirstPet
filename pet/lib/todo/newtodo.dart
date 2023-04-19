@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:pet/drawerappbar.dart';
-import 'package:pet/main.dart';
+import 'package:pet/todo/todolist.dart';
 import 'package:provider/provider.dart';
 
 class NewTodo extends StatefulWidget {
@@ -35,10 +36,7 @@ class _NewTodoState extends State<NewTodo> {
           ),
           floatingActionButton: ElevatedButton(
             onPressed: () {
-              setState(() {
-                (context).read<UserTodo>().text = textcontroller.text;
-              });
-              (context).read<UserTodo>().addToList();
+              Hive.box('listbox').add(textcontroller.text);
               Navigator.of(context).pop();
             },
             child: const Text('Save'),

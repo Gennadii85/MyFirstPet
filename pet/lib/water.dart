@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable, non_constant_identifier_names, camel_case_types
+// ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
@@ -16,7 +16,7 @@ class Water extends StatefulWidget {
 }
 
 class WaterState extends State<Water> {
-  int water = 0;
+  double water = 0;
   final String mll = 'mll';
   final String L = 'L';
   bool status = true;
@@ -37,12 +37,12 @@ class WaterState extends State<Water> {
   }
 
   getWater() {
-    water = prefs.getInt('waterkey') ?? 0;
+    water = prefs.getDouble('waterkey') ?? 0;
     setState(() {});
   }
 
   Future setWater() async {
-    await prefs.setInt('waterkey', water);
+    await prefs.setDouble('waterkey', water);
   }
 
   man_rate() {
@@ -86,7 +86,7 @@ class WaterState extends State<Water> {
       water = water * 1000;
     }
     if (status == false) {
-      water = (water / 1000).round();
+      water = (water / 1000);
     }
   }
 
@@ -198,17 +198,17 @@ class WaterState extends State<Water> {
             ),
             const Spacer(),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-              Cup_Button(volume: 75, coolbackFun: coolback),
-              Cup_Button(volume: 100, coolbackFun: coolback),
-              Cup_Button(volume: 125, coolbackFun: coolback),
+              CupButton(volume: 75, coolbackFun: coolback),
+              CupButton(volume: 100, coolbackFun: coolback),
+              CupButton(volume: 125, coolbackFun: coolback),
             ]),
             const SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Cup_Button(volume: 150, coolbackFun: coolback),
-                Cup_Button(volume: 175, coolbackFun: coolback),
-                Cup_Button(volume: 200, coolbackFun: coolback),
+                CupButton(volume: 150, coolbackFun: coolback),
+                CupButton(volume: 175, coolbackFun: coolback),
+                CupButton(volume: 200, coolbackFun: coolback),
               ],
             ),
             const Spacer(),
@@ -253,11 +253,11 @@ class WaterState extends State<Water> {
   }
 }
 
-class Cup_Button extends StatelessWidget {
-  int volume;
+class CupButton extends StatelessWidget {
+  final int volume;
   final Function coolbackFun;
 
-  Cup_Button({
+  const CupButton({
     Key? key,
     required this.volume,
     required this.coolbackFun,

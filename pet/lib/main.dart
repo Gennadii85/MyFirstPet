@@ -1,22 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pet/todo/todolist.dart';
-import 'package:pet/water.dart';
 import 'package:provider/provider.dart';
 
-DateTime dateTime = DateTime.now();
-var date = dateTime;
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await Hive.openBox('listbox');
 
-class UserTodo extends ChangeNotifier {
-  List<String> todoList = [];
-  String text = '';
-
-  void addToList() {
-    todoList.add(text);
-    notifyListeners();
-  }
-}
-
-void main() {
   runApp(MultiProvider(providers: [
     Provider(create: (context) => date),
     ChangeNotifierProvider(create: (context) => UserTodo()),
@@ -31,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       // debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blueGrey),
-      home: const Water(),
+      home: const TodoList(),
     );
   }
 }
