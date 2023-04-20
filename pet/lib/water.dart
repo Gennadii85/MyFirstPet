@@ -1,5 +1,3 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'package:flutter/material.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -20,8 +18,8 @@ class WaterState extends State<Water> {
   final String mll = 'mll';
   final String L = 'L';
   bool status = true;
-  final int water_rate_man = 3000; //mll
-  final int water_rate_woman = 2000; //mll
+  final int waterrateman = 3000; //mll
+  final int waterratewoman = 2000; //mll
   num man = 0;
   late SharedPreferences prefs;
 
@@ -45,24 +43,24 @@ class WaterState extends State<Water> {
     await prefs.setDouble('waterkey', water);
   }
 
-  man_rate() {
+  manrate() {
     setState(() {
       if (status == true) {
-        man = (100 * water) / water_rate_man;
+        man = (100 * water) / waterrateman;
       }
       if (status == false) {
-        man = ((100 * water) / water_rate_man) * 1000;
+        man = ((100 * water) / waterrateman) * 1000;
       }
     });
   }
 
-  woman_rate() {
+  womanrate() {
     setState(() {
       if (status == true) {
-        man = (100 * water) / water_rate_woman;
+        man = (100 * water) / waterratewoman;
       }
       if (status == false) {
-        man = ((100 * water) / water_rate_woman) * 1000;
+        man = ((100 * water) / waterratewoman) * 1000;
       }
     });
   }
@@ -93,8 +91,8 @@ class WaterState extends State<Water> {
   @override
   Widget build(BuildContext context) {
     double percent = status
-        ? ((water * 100 / water_rate_man) / 100).toDouble()
-        : ((water * 100 / (water_rate_man / 1000)) / 100).toDouble();
+        ? ((water * 100 / waterrateman) / 100).toDouble()
+        : ((water * 100 / (waterrateman / 1000)) / 100).toDouble();
     if (percent < 1.0) {
       percent;
     } else {
@@ -119,7 +117,7 @@ class WaterState extends State<Water> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    man_rate();
+                    manrate();
                     showDialog(
                       context: context,
                       builder: (context) => SimpleDialog(
@@ -146,7 +144,7 @@ class WaterState extends State<Water> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    woman_rate();
+                    womanrate();
                     showDialog(
                       context: context,
                       builder: (context) => SimpleDialog(

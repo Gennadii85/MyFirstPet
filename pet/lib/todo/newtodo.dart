@@ -1,46 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:pet/drawerappbar.dart';
-import 'package:pet/todo/todolist.dart';
-import 'package:provider/provider.dart';
 
 class NewTodo extends StatefulWidget {
   const NewTodo({Key? key}) : super(key: key);
 
   @override
-  State<NewTodo> createState() => _NewTodoState();
+  State<NewTodo> createState() => NewTodoState();
 }
 
-class _NewTodoState extends State<NewTodo> {
+class NewTodoState extends State<NewTodo> {
   final textcontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Provider(
-      create: (BuildContext context) => UserTodo(),
-      child: MaterialApp(
-        home: Scaffold(
-          drawer: const DrawerAppBar(),
-          appBar: AppBar(
-            title: const Text('New Todo'),
+    return MaterialApp(
+      home: Scaffold(
+        drawer: const DrawerAppBar(),
+        appBar: AppBar(
+          title: const Text('New Todo'),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: TextField(
+            controller: textcontroller,
+            decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12))),
+            style: TextStyle(backgroundColor: Colors.grey[200], fontSize: 20),
           ),
-          body: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: TextField(
-              controller: textcontroller,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12))),
-              style: TextStyle(backgroundColor: Colors.grey[200], fontSize: 20),
-            ),
-          ),
-          floatingActionButton: ElevatedButton(
-            onPressed: () {
-              Hive.box('listbox').add(textcontroller.text);
-              Navigator.of(context).pop();
-            },
-            child: const Text('Save'),
-          ),
+        ),
+        floatingActionButton: ElevatedButton(
+          onPressed: () {
+            Hive.box('listbox').add(textcontroller.text);
+            Navigator.of(context).pop();
+          },
+          child: const Text('Save'),
         ),
       ),
     );

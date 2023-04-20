@@ -303,6 +303,7 @@ class Coord {
   }
 }
 
+//  "var json" created for convenience. can be deleted.
 var json = {
   "cod": "200",
   "message": 0,

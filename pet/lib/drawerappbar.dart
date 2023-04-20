@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:pet/settings.dart';
 import 'package:pet/todo/todolist.dart';
@@ -64,17 +62,6 @@ class DrawerAppBar extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => const Settings()));
               }),
             ),
-            // ListTile(
-            //   title: const Text(
-            //     'shared',
-            //     style: TextStyle(fontSize: 25, color: Colors.indigo),
-            //   ),
-            //   leading: const Icon(Icons.settings),
-            //   onTap: (() {
-            //     Navigator.of(context).push(
-            //         MaterialPageRoute(builder: (context) => const Shared()));
-            //   }),
-            // ),
           ],
         ),
       ),

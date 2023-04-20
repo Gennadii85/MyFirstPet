@@ -1,7 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pet/drawerappbar.dart';
@@ -93,13 +90,13 @@ class _WeatherState extends State<WeatherScreen> {
                                   child: const Icon(Icons.exposure_zero),
                                 ),
                                 Image.network(
-                                    'https://openweathermap.org/img/wn/$iconnov@2x.png'), //иконка погоды с сайта
+                                    'https://openweathermap.org/img/wn/$iconnov@2x.png'), //icons weather from web
                                 Text(
                                   descriptionnov,
                                   style: const TextStyle(
                                       fontSize: 25,
                                       fontStyle: FontStyle.italic),
-                                ) //описание
+                                )
                               ]),
                           const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -209,28 +206,28 @@ class _WeatherHourState extends State<WeatherHour> {
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text('${newtime[index]} h',
-                    style: const TextStyle(fontSize: 20)), //time
+                Text('${newtime[index]} h', //time
+                    style: const TextStyle(fontSize: 20)),
                 Row(
                   children: [
-                    Text('${temp[index]}',
+                    Text('${temp[index]}', //temp
                         style: const TextStyle(fontSize: 20)),
                     Container(
                         width: 25,
                         padding: const EdgeInsets.fromLTRB(0, 0, 20, 10),
                         child: const Icon(Icons.exposure_zero))
                   ],
-                ), //temp
+                ),
                 Image.network(
                   '${newicon[index]}',
                   height: 50,
                   width: 50,
                   fit: BoxFit.fill,
                 ),
-                Text('${windspeed[index]} m/c',
-                    style: const TextStyle(fontSize: 20)), //wind
-                Text('${humidity[index]} %',
-                    style: const TextStyle(fontSize: 20)), //humidity
+                Text('${windspeed[index]} m/c', //wind
+                    style: const TextStyle(fontSize: 20)),
+                Text('${humidity[index]} %', //humidity
+                    style: const TextStyle(fontSize: 20)),
               ],
             );
           },
