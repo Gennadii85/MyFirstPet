@@ -86,6 +86,7 @@ class WaterState extends State<Water> {
     if (status == false) {
       water = (water / 1000);
     }
+    return water;
   }
 
   @override
