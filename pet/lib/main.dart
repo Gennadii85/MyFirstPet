@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pet/settings.dart';
 import 'package:pet/todo/todolist.dart';
 
 void main() async {
@@ -19,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       // debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blueGrey),
-      home: const Settings(),
+      home: const TodoList(),
     );
   }
 }

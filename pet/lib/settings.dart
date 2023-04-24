@@ -10,16 +10,6 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   var settingTheme = ThemeData(primarySwatch: Colors.grey);
-  String? selectedValue;
-  List<String> list = [
-    'english',
-    'russian',
-  ];
-  @override
-  void initState() {
-    super.initState();
-    selectedValue = list.first;
-  }
 
   setTheme(color) {
     setState(() {
@@ -35,6 +25,23 @@ class _SettingsState extends State<Settings> {
         drawer: const DrawerAppBar(),
         appBar: AppBar(
           title: const Text('Settings'),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: FilledButton(
+                  onPressed: () {
+                    // сохранение параметров
+                  },
+                  style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll<Color>(
+                        Color.fromARGB(255, 93, 151, 199)),
+                  ),
+                  child: const Text(
+                    'Save',
+                    style: TextStyle(color: Colors.black, fontSize: 20),
+                  )),
+            )
+          ],
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -79,39 +86,6 @@ class _SettingsState extends State<Settings> {
                 thickness: 2,
               ),
             ),
-            const Center(
-              child: Text(
-                'Choose language',
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: DropdownButton(
-                value: selectedValue,
-                dropdownColor: settingTheme.primaryColor,
-                isExpanded: false,
-                onChanged: (String? value) {
-                  setState(() {
-                    selectedValue = value!;
-                  });
-                },
-                items: list.map((list) {
-                  return DropdownMenuItem<String>(
-                    alignment: AlignmentDirectional.center,
-                    value: list,
-                    child: Text(
-                      list,
-                      style: const TextStyle(fontSize: 24),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-            const Divider(
-              height: 20,
-              thickness: 2,
-            ),
           ],
         ),
       ),
@@ -142,20 +116,20 @@ class _ColorThemeState extends State<ColorTheme> {
       color: widget.color,
       elevation: 5,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: SizedBox(
-        width: double.infinity,
-        child: TextButton(
-          style: ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll<Color>(widget.color),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            padding: const EdgeInsets.fromLTRB(60, 0, 0, 0),
+            child: Text(widget.namecolor),
           ),
-          onPressed: () {
-            widget.coolbackTheme(widget.color);
-          },
-          child: Text(
-            widget.namecolor,
-            style: const TextStyle(fontSize: 20, color: Colors.black),
+          IconButton(
+            onPressed: () {
+              widget.coolbackTheme(widget.color);
+            },
+            icon: const Icon(Icons.done_outline),
           ),
-        ),
+        ],
       ),
     );
   }
