@@ -29,16 +29,17 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cupertino_icons: ^1.0.2
+  easy_localization: ^3.0.1
   flutter:
     sdk: flutter
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   http: ^0.13.5
-  lite_rolling_switch: ^1.0.1
+  # lite_rolling_switch: ^1.0.1
   percent_indicator: ^4.2.3
   provider: ^6.0.5
   shared_preferences: ^2.1.0
-  table_calendar: ^3.0.9
+  # table_calendar: ^3.0.9
 
 dev_dependencies:
   flutter_lints: ^2.0.0

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lite_rolling_switch/lite_rolling_switch.dart';
+// import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:pet/drawerappbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -224,24 +224,24 @@ class WaterState extends State<Water> {
                   },
                   child: const Text('Reset'),
                 ),
-                LiteRollingSwitch(
-                  onChanged: (bool value) {
-                    setState(() {
-                      status = value;
-                    });
-                    mlltoL();
-                  },
-                  value: status,
-                  textSize: 20,
-                  colorOff: Colors.blueAccent,
-                  colorOn: Colors.blueGrey,
-                  iconOff: Icons.check,
-                  textOff: L,
-                  textOn: mll,
-                  onDoubleTap: () {},
-                  onSwipe: () {},
-                  onTap: () {},
-                ),
+                // LiteRollingSwitch(
+                //   onChanged: (bool value) {
+                //     setState(() {
+                //       status = value;
+                //     });
+                //     mlltoL();
+                //   },
+                //   value: status,
+                //   textSize: 20,
+                //   colorOff: Colors.blueAccent,
+                //   colorOn: Colors.blueGrey,
+                //   iconOff: Icons.check,
+                //   textOff: L,
+                //   textOn: mll,
+                //   onDoubleTap: () {},
+                //   onSwipe: () {},
+                //   onTap: () {},
+                // ),
               ],
             ),
           ]),
