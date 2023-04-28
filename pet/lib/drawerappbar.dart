@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:pet/generated/locale_keys.g.dart';
 import 'package:pet/settings.dart';
 import 'package:pet/todo/todolist.dart';
 import 'package:pet/water.dart';
@@ -20,9 +22,9 @@ class DrawerAppBar extends StatelessWidget {
           children: [
             ListTile(
               title: const Text(
-                'Список дел',
+                LocaleKeys.my_notes,
                 style: TextStyle(fontSize: 25, color: Colors.indigo),
-              ),
+              ).tr(),
               leading: const Icon(Icons.home),
               onTap: (() {
                 Navigator.of(context).push(
@@ -31,9 +33,9 @@ class DrawerAppBar extends StatelessWidget {
             ),
             ListTile(
               title: const Text(
-                'Счетчик воды',
+                LocaleKeys.water_meter,
                 style: TextStyle(fontSize: 25, color: Colors.indigo),
-              ),
+              ).tr(),
               leading: const Icon(Icons.water),
               onTap: (() {
                 Navigator.of(context).push(
@@ -42,9 +44,9 @@ class DrawerAppBar extends StatelessWidget {
             ),
             ListTile(
               title: const Text(
-                'Погода',
+                LocaleKeys.weather,
                 style: TextStyle(fontSize: 25, color: Colors.indigo),
-              ),
+              ).tr(),
               leading: const Icon(Icons.light_mode),
               onTap: (() {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -53,9 +55,9 @@ class DrawerAppBar extends StatelessWidget {
             ),
             ListTile(
               title: const Text(
-                'Настройки',
+                LocaleKeys.settings,
                 style: TextStyle(fontSize: 25, color: Colors.indigo),
-              ),
+              ).tr(),
               leading: const Icon(Icons.settings),
               onTap: (() {
                 Navigator.of(context).push(

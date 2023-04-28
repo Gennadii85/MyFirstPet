@@ -1,8 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:pet/drawerappbar.dart';
-// import 'package:pet/calendar.dart';
+import 'package:pet/generated/locale_keys.g.dart';
 import 'package:pet/todo/newtodo.dart';
+
+import '../calendar.dart';
 
 DateTime dateTime = DateTime.now();
 var date = dateTime;
@@ -31,7 +34,7 @@ class TodoListState extends State<TodoList> {
       home: Scaffold(
         drawer: const DrawerAppBar(),
         appBar: AppBar(
-          title: const Text('Мои заметки'),
+          title: const Text(LocaleKeys.my_notes).tr(),
           actions: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -45,9 +48,8 @@ class TodoListState extends State<TodoList> {
                 ),
                 TextButton(
                   onPressed: () {
-                    // Navigator.of(context).push(
-                    //   MaterialPageRoute(builder: (context) => const Calendar()),
-                    // );
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const Calendar()));
                   },
                   child: const Icon(
                     Icons.calendar_month,
@@ -90,29 +92,7 @@ class TodoListState extends State<TodoList> {
                         listbox.isEmpty ? '' : listbox.values.toList()[index],
                         style: const TextStyle(fontSize: 18),
                       ),
-                      trailing: IconButton(
-                        onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (context) => SimpleDialog(
-                                    children: [
-                                      TextFormField(
-                                        initialValue:
-                                            listbox.values.toList()[index],
-                                        onChanged: (value) => text = value,
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          listbox.putAt(index, text);
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text('update'),
-                                      )
-                                    ],
-                                  ));
-                        },
-                        icon: const Icon(Icons.create_rounded),
-                      ),
+                      trailing: todoShowDialog(context, index),
                     ),
                   ),
                 );
@@ -130,11 +110,48 @@ class TodoListState extends State<TodoList> {
                 .push(MaterialPageRoute(builder: (context) => const NewTodo()));
           },
           child: const Text(
-            'new todo',
+            LocaleKeys.new_todo,
             style: TextStyle(fontSize: 20),
-          ),
+          ).tr(),
         ),
       ),
+    );
+  }
+
+  IconButton todoShowDialog(BuildContext context, int index) {
+    return IconButton(
+      onPressed: () {
+        showDialog(
+            context: context,
+            builder: (context) => SimpleDialog(
+                  children: [
+                    TextFormField(
+                      initialValue: listbox.values.toList()[index],
+                      onChanged: (value) => text = value,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            listbox.putAt(index, text);
+                            text = '';
+                            Navigator.pop(context);
+                          },
+                          child: const Text(LocaleKeys.update).tr(),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text(LocaleKeys.cancel).tr(),
+                        ),
+                      ],
+                    )
+                  ],
+                ));
+      },
+      icon: const Icon(Icons.create_rounded),
     );
   }
 }

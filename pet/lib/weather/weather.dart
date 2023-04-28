@@ -1,19 +1,26 @@
 import 'dart:convert';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pet/drawerappbar.dart';
+import 'package:pet/generated/locale_keys.g.dart';
 import 'package:pet/weather/weather_json.dart';
 
 DateTime dateTime = DateTime.now();
 var date = dateTime;
+String uriRU =
+    'https://api.openweathermap.org/data/2.5/forecast?q=Odesa&appid=eb2ad68438537913ba1f7fa6b92ae088&units=metric&lang=ru';
+String uriEN =
+    'https://api.openweathermap.org/data/2.5/forecast?q=Odesa&appid=eb2ad68438537913ba1f7fa6b92ae088&units=metric&lang=en';
+String uri = '';
 
 Future<AutoGenerate> fetchAlbum() async {
-  final response = await http.get(Uri.parse(
-      'https://api.openweathermap.org/data/2.5/forecast?q=Odesa&appid=eb2ad68438537913ba1f7fa6b92ae088&units=metric&lang=ru'));
+  final response = await http.get(Uri.parse(uri));
   if (response.statusCode == 200) {
-    return AutoGenerate.fromJson(jsonDecode(response.body));
+    final json = jsonDecode(response.body);
+    return AutoGenerate.fromJson(json);
   } else {
-    throw Exception('Failed to load album');
+    throw Exception(const Text(LocaleKeys.failed_to_load_album).tr());
   }
 }
 
@@ -25,32 +32,43 @@ class WeatherScreen extends StatefulWidget {
 }
 
 class _WeatherState extends State<WeatherScreen> {
+  getLocale() {
+    if (context.locale == const Locale('ru')) {
+      uri = uriRU;
+      fetchAlbum();
+    } else {
+      if (context.locale == const Locale('en')) {
+        uri = uriEN;
+        fetchAlbum();
+      }
+    }
+  }
+
   @override
-  void initState() {
-    super.initState();
-    fetchAlbum();
+  void didChangeDependencies() {
+    getLocale();
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    final iconnov =
-        AutoGenerate.fromJson(json).list.first.weather.first.icon.toString();
-    final descriptionnov = AutoGenerate.fromJson(json)
-        .list
-        .first
-        .weather
-        .first
-        .description
-        .toString();
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.cyan),
       home: Scaffold(
         drawer: const DrawerAppBar(),
-        appBar: AppBar(title: const Text('Weather')),
+        appBar: AppBar(title: const Text(LocaleKeys.weather).tr()),
         body: FutureBuilder(
           future: fetchAlbum(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              final String iconnov =
+                  snapshot.data!.list.first.weather.first.icon;
+              final String description =
+                  snapshot.data!.list.first.weather.first.description;
+              final num speed = snapshot.data!.list.first.wind.speed;
+              final num pressure = snapshot.data!.list.first.main.pressure;
+              final num humidity = snapshot.data!.list.first.main.humidity;
+
               return Container(
                 padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
@@ -79,7 +97,7 @@ class _WeatherState extends State<WeatherScreen> {
                                                 136, 92, 20, 139))))
                               ]),
                           Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
                                     '${snapshot.data!.list.first.main.temp.round()}', //today's temp
@@ -92,9 +110,9 @@ class _WeatherState extends State<WeatherScreen> {
                                 Image.network(
                                     'https://openweathermap.org/img/wn/$iconnov@2x.png'), //icons weather from web
                                 Text(
-                                  descriptionnov,
+                                  description,
                                   style: const TextStyle(
-                                      fontSize: 25,
+                                      fontSize: 20,
                                       fontStyle: FontStyle.italic),
                                 )
                               ]),
@@ -111,26 +129,26 @@ class _WeatherState extends State<WeatherScreen> {
                                   children: [
                                     Column(children: [
                                       Text(
-                                        '${snapshot.data!.list.first.wind.speed} m/c',
+                                        '$speed m/c',
                                         style: const TextStyle(fontSize: 25),
                                       ),
-                                      const Text('ветер'),
+                                      const Text(LocaleKeys.wind).tr(),
                                     ]),
                                     Column(
                                       children: [
                                         Text(
-                                          '${snapshot.data!.list.first.main.pressure} hPa',
+                                          '$pressure hPa',
                                           style: const TextStyle(fontSize: 25),
                                         ),
-                                        const Text('давление'),
+                                        const Text(LocaleKeys.pressure).tr(),
                                       ],
                                     ),
                                     Column(children: [
                                       Text(
-                                        '${snapshot.data!.list.first.main.humidity} %',
+                                        '$humidity %',
                                         style: const TextStyle(fontSize: 25),
                                       ),
-                                      const Text('влажность'),
+                                      const Text(LocaleKeys.humidity).tr(),
                                     ])
                                   ])),
                           const Padding(
@@ -139,10 +157,10 @@ class _WeatherState extends State<WeatherScreen> {
                                   Divider(height: 10.0, color: Colors.black)),
                         ]),
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: WeatherHour(),
+                      padding: const EdgeInsets.all(10.0),
+                      child: weatherHour(),
                     ),
                   ),
                 ]),
@@ -158,81 +176,71 @@ class _WeatherState extends State<WeatherScreen> {
   }
 }
 
-class WeatherHour extends StatefulWidget {
-  const WeatherHour({Key? key}) : super(key: key);
-
-  @override
-  State<WeatherHour> createState() => _WeatherHourState();
-}
-
-class _WeatherHourState extends State<WeatherHour> {
-  final List time =
-      AutoGenerate.fromJson(json).list.map((e) => e.dtTxt).toList();
-  late List newtime = time.map((e) => e!.substring(10, 13).toString()).toList();
-  final List temp =
-      AutoGenerate.fromJson(json).list.map((e) => e.main.temp.round()).toList();
-  final List windspeed =
-      AutoGenerate.fromJson(json).list.map((e) => e.wind.speed).toList();
-  final List humidity =
-      AutoGenerate.fromJson(json).list.map((e) => e.main.humidity).toList();
-  final List icon = AutoGenerate.fromJson(json)
-      .list
-      .map((e) => e.weather.map((e) => e.icon.toString()))
-      .toList();
-  final List newicon = [];
-
-  @override
-  Widget build(BuildContext context) {
-    for (var e in icon) {
-      var aaa = e.toString().substring(1, 4);
-      newicon.add('https://openweathermap.org/img/wn/$aaa@2x.png');
-    }
-
-    return FutureBuilder(
+Widget? weatherHour() => FutureBuilder(
       future: fetchAlbum(),
-      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        return ListView.separated(
-          shrinkWrap: true,
-          padding: const EdgeInsets.all(20),
-          scrollDirection: Axis.horizontal,
-          itemCount: newtime.length,
-          separatorBuilder: (BuildContext context, int index) =>
-              const VerticalDivider(
-            color: Color.fromARGB(255, 84, 154, 212),
-            width: 8,
-            thickness: 2,
-          ),
-          itemBuilder: (BuildContext context, int index) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text('${newtime[index]} h', //time
-                    style: const TextStyle(fontSize: 20)),
-                Row(
-                  children: [
-                    Text('${temp[index]}', //temp
-                        style: const TextStyle(fontSize: 20)),
-                    Container(
-                        width: 25,
-                        padding: const EdgeInsets.fromLTRB(0, 0, 20, 10),
-                        child: const Icon(Icons.exposure_zero))
-                  ],
-                ),
-                Image.network(
-                  '${newicon[index]}',
-                  height: 50,
-                  width: 50,
-                  fit: BoxFit.fill,
-                ),
-                Text('${windspeed[index]} m/c', //wind
-                    style: const TextStyle(fontSize: 20)),
-                Text('${humidity[index]} %', //humidity
-                    style: const TextStyle(fontSize: 20)),
-              ],
-            );
-          },
-        );
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final List time = snapshot.data!.list.map((e) => e.dtTxt).toList();
+          final List newtime =
+              time.map((e) => e!.substring(10, 13).toString()).toList();
+          final List temp =
+              snapshot.data!.list.map((e) => e.main.temp.round()).toList();
+          final List windspeed =
+              snapshot.data!.list.map((e) => e.wind.speed).toList();
+          final List humidity =
+              snapshot.data!.list.map((e) => e.main.humidity).toList();
+          final List icon = snapshot.data!.list
+              .map((e) => e.weather.map((e) => e.icon.toString()))
+              .toList();
+          final List newicon = [];
+          for (var e in icon) {
+            var aaa = e.toString().substring(1, 4);
+            newicon.add('https://openweathermap.org/img/wn/$aaa@2x.png');
+          }
+          return ListView.separated(
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(20),
+            scrollDirection: Axis.horizontal,
+            itemCount: newtime.length,
+            separatorBuilder: (BuildContext context, int index) =>
+                const VerticalDivider(
+              color: Color.fromARGB(255, 84, 154, 212),
+              width: 8,
+              thickness: 2,
+            ),
+            itemBuilder: (BuildContext context, int index) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text('${newtime[index]} h', //time
+                      style: const TextStyle(fontSize: 20)),
+                  Row(
+                    children: [
+                      Text('${temp[index]}', //temp
+                          style: const TextStyle(fontSize: 20)),
+                      Container(
+                          width: 25,
+                          padding: const EdgeInsets.fromLTRB(0, 0, 20, 10),
+                          child: const Icon(Icons.exposure_zero))
+                    ],
+                  ),
+                  Image.network(
+                    '${newicon[index]}',
+                    height: 50,
+                    width: 50,
+                    fit: BoxFit.fill,
+                  ),
+                  Text('${windspeed[index]} m/c', //wind
+                      style: const TextStyle(fontSize: 20)),
+                  Text('${humidity[index]} %', //humidity
+                      style: const TextStyle(fontSize: 20)),
+                ],
+              );
+            },
+          );
+        } else if (snapshot.hasError) {
+          return Text('${snapshot.error}');
+        }
+        return const Center(child: CircularProgressIndicator());
       },
     );
-  }
-}

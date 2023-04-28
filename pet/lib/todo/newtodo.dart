@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:pet/drawerappbar.dart';
+import 'package:pet/generated/locale_keys.g.dart';
 
 class NewTodo extends StatefulWidget {
   const NewTodo({Key? key}) : super(key: key);
@@ -18,7 +20,7 @@ class NewTodoState extends State<NewTodo> {
       home: Scaffold(
         drawer: const DrawerAppBar(),
         appBar: AppBar(
-          title: const Text('New Todo'),
+          title: const Text(LocaleKeys.new_todo).tr(),
         ),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -35,7 +37,7 @@ class NewTodoState extends State<NewTodo> {
             Hive.box('listbox').add(textcontroller.text);
             Navigator.of(context).pop();
           },
-          child: const Text('Save'),
+          child: const Text(LocaleKeys.save).tr(),
         ),
       ),
     );

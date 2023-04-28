@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:pet/drawerappbar.dart';
+import 'package:pet/generated/locale_keys.g.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -24,24 +26,7 @@ class _SettingsState extends State<Settings> {
       home: Scaffold(
         drawer: const DrawerAppBar(),
         appBar: AppBar(
-          title: const Text('Settings'),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: FilledButton(
-                  onPressed: () {
-                    // сохранение параметров
-                  },
-                  style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll<Color>(
-                        Color.fromARGB(255, 93, 151, 199)),
-                  ),
-                  child: const Text(
-                    'Save',
-                    style: TextStyle(color: Colors.black, fontSize: 20),
-                  )),
-            )
-          ],
+          title: const Text(LocaleKeys.settings).tr(),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -49,11 +34,11 @@ class _SettingsState extends State<Settings> {
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text(
-                  'Color theme',
+              children: [
+                const Text(
+                  LocaleKeys.color_theme,
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                )
+                ).tr()
               ],
             ),
             const SizedBox(height: 20),
@@ -86,6 +71,25 @@ class _SettingsState extends State<Settings> {
                 thickness: 2,
               ),
             ),
+            Center(
+              child: const Text(
+                LocaleKeys.languish,
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ).tr(),
+            ),
+            TextButton(
+              onPressed: () {
+                if (context.locale == const Locale('ru')) {
+                  context.setLocale(const Locale('en'));
+                } else {
+                  context.setLocale(const Locale('ru'));
+                }
+              },
+              child: const Icon(
+                Icons.calendar_month,
+                color: Color.fromARGB(255, 126, 24, 145),
+              ),
+            ),
           ],
         ),
       ),
@@ -116,20 +120,17 @@ class _ColorThemeState extends State<ColorTheme> {
       color: widget.color,
       elevation: 5,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            padding: const EdgeInsets.fromLTRB(60, 0, 0, 0),
-            child: Text(widget.namecolor),
+      child: SizedBox(
+        width: double.infinity,
+        child: TextButton(
+          onPressed: () {
+            widget.coolbackTheme(widget.color);
+          },
+          child: Text(
+            widget.namecolor,
+            style: const TextStyle(fontSize: 20, color: Colors.black),
           ),
-          IconButton(
-            onPressed: () {
-              widget.coolbackTheme(widget.color);
-            },
-            icon: const Icon(Icons.done_outline),
-          ),
-        ],
+        ),
       ),
     );
   }
