@@ -77,18 +77,28 @@ class _SettingsState extends State<Settings> {
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ).tr(),
             ),
-            TextButton(
-              onPressed: () {
-                if (context.locale == const Locale('ru')) {
-                  context.setLocale(const Locale('en'));
-                } else {
-                  context.setLocale(const Locale('ru'));
-                }
-              },
-              child: const Icon(
-                Icons.calendar_month,
-                color: Color.fromARGB(255, 126, 24, 145),
-              ),
+            ExpansionTile(
+              expandedAlignment: Alignment.center,
+              backgroundColor: settingTheme.primaryColor,
+              expandedCrossAxisAlignment: CrossAxisAlignment.center,
+              title: const Text(
+                LocaleKeys.languish,
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ).tr(),
+              children: [
+                ListTile(
+                  title: const Text('russian'),
+                  onTap: () {
+                    context.setLocale(const Locale('ru'));
+                  },
+                ),
+                ListTile(
+                  title: const Text('english'),
+                  onTap: () {
+                    context.setLocale(const Locale('en'));
+                  },
+                ),
+              ],
             ),
           ],
         ),
