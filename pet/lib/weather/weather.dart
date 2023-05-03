@@ -103,6 +103,7 @@ class _WeatherState extends State<WeatherScreen> {
                                     '${snapshot.data!.list.first.main.temp.round()}', //today's temp
                                     style: const TextStyle(fontSize: 50)),
                                 Container(
+                                  width: 20,
                                   padding:
                                       const EdgeInsets.fromLTRB(0, 0, 20, 20),
                                   child: const Icon(Icons.exposure_zero),
@@ -112,7 +113,7 @@ class _WeatherState extends State<WeatherScreen> {
                                 Text(
                                   description,
                                   style: const TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 15,
                                       fontStyle: FontStyle.italic),
                                 )
                               ]),

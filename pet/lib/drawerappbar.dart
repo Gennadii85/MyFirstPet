@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pet/generated/locale_keys.g.dart';
 import 'package:pet/settings.dart';
 import 'package:pet/todo/todolist.dart';
-import 'package:pet/water.dart';
+import 'package:pet/water/water.dart';
 import 'package:pet/weather/weather.dart';
 
 class DrawerAppBar extends StatelessWidget {

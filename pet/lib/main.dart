@@ -4,10 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pet/generated/codegen_loader.g.dart';
 import 'package:pet/todo/todolist.dart';
-import 'package:pet/water.dart';
 import 'package:pet/water/cubit/water_cubit_cubit.dart';
-import 'package:pet/water/water2.dart';
-import 'package:pet/weather/weather.dart';
 /* 
 flutter pub run easy_localization:generate -S "assets/translations"
 для генерации codegen_loader файла
@@ -47,7 +44,7 @@ class MyApp extends StatelessWidget {
         locale: context.locale,
         // debugShowCheckedModeBanner: false,
         theme: ThemeData(primarySwatch: Colors.blueGrey),
-        home: const Water2(),
+        home: const TodoList(),
       ),
     );
   }

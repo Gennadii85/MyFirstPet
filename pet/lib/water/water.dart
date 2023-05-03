@@ -4,8 +4,8 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:pet/drawerappbar.dart';
 import 'package:pet/water/cubit/water_cubit_cubit.dart';
 
-class Water2 extends StatelessWidget {
-  const Water2({super.key});
+class Water extends StatelessWidget {
+  const Water({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
