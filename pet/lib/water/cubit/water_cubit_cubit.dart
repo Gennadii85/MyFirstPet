@@ -25,12 +25,3 @@ class WaterCubit extends Cubit<WaterInitState> {
       rate: state.rate,
       water: state.water));
 }
-
-//  double percent = status
-//         ? ((water * 100 / waterrateman) / 100).toDouble()
-//         : ((water * 100 / (waterrateman / 1000)) / 100).toDouble();
-//     if (percent < 1.0) {
-//       percent;
-//     } else {
-//       percent = 1.0;
-//     }

@@ -1,102 +1,13 @@
 import 'package:flutter/material.dart';
-// import 'package:lite_rolling_switch/lite_rolling_switch.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:pet/drawerappbar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pet/water/cubit/water_cubit_cubit.dart';
 
-class Water extends StatefulWidget {
-  const Water({Key? key}) : super(key: key);
-
-  @override
-  State<Water> createState() => WaterState();
-}
-
-class WaterState extends State<Water> {
-  double water = 0;
-  final String mll = 'mll';
-  final String L = 'L';
-  bool status = true;
-  final int waterrateman = 3000; //mll
-  final int waterratewoman = 2000; //mll
-  num man = 0;
-  late SharedPreferences prefs;
-
-  @override
-  void initState() {
-    super.initState();
-    initSharedPreferences();
-  }
-
-  initSharedPreferences() async {
-    prefs = await SharedPreferences.getInstance();
-    getWater();
-  }
-
-  getWater() {
-    water = prefs.getDouble('waterkey') ?? 0;
-    setState(() {});
-  }
-
-  Future setWater() async {
-    await prefs.setDouble('waterkey', water);
-  }
-
-  manrate() {
-    setState(() {
-      if (status == true) {
-        man = (100 * water) / waterrateman;
-      }
-      if (status == false) {
-        man = ((100 * water) / waterrateman) * 1000;
-      }
-    });
-  }
-
-  womanrate() {
-    setState(() {
-      if (status == true) {
-        man = (100 * water) / waterratewoman;
-      }
-      if (status == false) {
-        man = ((100 * water) / waterratewoman) * 1000;
-      }
-    });
-  }
-
-  coolback(volume) {
-    //from Row buttons
-    setState(() {
-      if (status == true) {
-        water = volume + water;
-      }
-      if (status == false) {
-        water = (volume / 1000) + water;
-      }
-    });
-    setWater();
-  }
-
-  mlltoL() {
-    //true - mll : false - L
-    if (status == true) {
-      water = water * 1000;
-    }
-    if (status == false) {
-      water = (water / 1000);
-    }
-  }
-
+class Water2 extends StatelessWidget {
+  const Water2({super.key});
   @override
   Widget build(BuildContext context) {
-    double percent = status
-        ? ((water * 100 / waterrateman) / 100).toDouble()
-        : ((water * 100 / (waterrateman / 1000)) / 100).toDouble();
-    if (percent < 1.0) {
-      percent;
-    } else {
-      percent = 1.0;
-    }
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -108,29 +19,15 @@ class WaterState extends State<Water> {
           decoration: BoxDecoration(
               image: DecorationImage(
                   image: Image.asset('assets/water.jpg').image,
-                  fit: BoxFit.fill)),
+                  fit: BoxFit.cover)),
           child: Column(children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    manrate();
-                    showDialog(
-                      context: context,
-                      builder: (context) => SimpleDialog(
-                        children: [
-                          Center(
-                              child: Text(
-                                  'это ${man.round()} % нормы воды для мужчин')),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text('Closed'))
-                        ],
-                      ),
-                    );
+                    context.read<WaterCubit>().manrate();
+                    showDialogRate(context);
                   },
                   style: ElevatedButton.styleFrom(
                       elevation: 3,
@@ -142,22 +39,8 @@ class WaterState extends State<Water> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    womanrate();
-                    showDialog(
-                      context: context,
-                      builder: (context) => SimpleDialog(
-                        children: [
-                          Center(
-                              child: Text(
-                                  'это ${man.round()} % нормы воды для женщин')),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text('Closed'))
-                        ],
-                      ),
-                    );
+                    context.read<WaterCubit>().womanrate();
+                    showDialogRate(context);
                   },
                   style: ElevatedButton.styleFrom(
                       elevation: 3,
@@ -170,41 +53,60 @@ class WaterState extends State<Water> {
               ],
             ),
             const SizedBox(height: 50),
-            Text(
-              'Вы выпили ${status ? water.round() : water.toStringAsFixed(2)} ${status ? mll : L} воды',
-              style: const TextStyle(
-                  fontSize: 25,
-                  fontFamily: 'Comfortaa-Regular',
-                  color: Color.fromARGB(255, 107, 17, 11)),
+            BlocBuilder<WaterCubit, WaterInitState>(
+              builder: (context, state) {
+                return Text(
+                  'Вы выпили ${state.water.round().toString()} mll воды',
+                  style: const TextStyle(
+                      fontSize: 25,
+                      fontFamily: 'Comfortaa-Regular',
+                      color: Color.fromARGB(255, 107, 17, 11)),
+                );
+              },
             ),
             const Spacer(),
-            CircularPercentIndicator(
-              percent: percent,
-              animateFromLastPercent: true,
-              radius: 100,
-              lineWidth: 20,
-              animation: true,
-              animationDuration: 500,
-              progressColor: const Color.fromARGB(255, 34, 221, 105),
-              center: Text(
-                '${(percent * 100).round()} %',
-                style: const TextStyle(
-                    fontSize: 40, color: Color.fromARGB(255, 238, 21, 21)),
-              ),
+            BlocBuilder<WaterCubit, WaterInitState>(
+              builder: (context, state) {
+                return CircularPercentIndicator(
+                  percent: state.percent < 1 ? state.percent : 1,
+                  animateFromLastPercent: true,
+                  radius: 100,
+                  lineWidth: 20,
+                  animation: true,
+                  animationDuration: 500,
+                  progressColor: const Color.fromARGB(255, 241, 10, 41),
+                  center: Text(
+                    '${(state.percent * 100).round()} %',
+                    style: const TextStyle(
+                        fontSize: 40, color: Color.fromARGB(255, 238, 21, 21)),
+                  ),
+                );
+              },
             ),
             const Spacer(),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-              CupButton(volume: 75, coolbackFun: coolback),
-              CupButton(volume: 100, coolbackFun: coolback),
-              CupButton(volume: 125, coolbackFun: coolback),
+              CupButton(
+                  volume: 75, coolbackFun: context.read<WaterCubit>().coolback),
+              CupButton(
+                  volume: 100,
+                  coolbackFun: context.read<WaterCubit>().coolback),
+              CupButton(
+                  volume: 125,
+                  coolbackFun: context.read<WaterCubit>().coolback),
             ]),
             const SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                CupButton(volume: 150, coolbackFun: coolback),
-                CupButton(volume: 175, coolbackFun: coolback),
-                CupButton(volume: 200, coolbackFun: coolback),
+                CupButton(
+                    volume: 150,
+                    coolbackFun: context.read<WaterCubit>().coolback),
+                CupButton(
+                    volume: 175,
+                    coolbackFun: context.read<WaterCubit>().coolback),
+                CupButton(
+                    volume: 200,
+                    coolbackFun: context.read<WaterCubit>().coolback),
               ],
             ),
             const Spacer(),
@@ -215,35 +117,37 @@ class WaterState extends State<Water> {
                   style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 82, 143, 201)),
                   onPressed: () {
-                    setState(() {
-                      water = 0;
-                      prefs.clear();
-                    });
+                    context.read<WaterCubit>().clearWater();
                   },
                   child: const Text('Reset'),
                 ),
-                // LiteRollingSwitch(
-                //   onChanged: (bool value) {
-                //     setState(() {
-                //       status = value;
-                //     });
-                //     mlltoL();
-                //   },
-                //   value: status,
-                //   textSize: 20,
-                //   colorOff: Colors.blueAccent,
-                //   colorOn: Colors.blueGrey,
-                //   iconOff: Icons.check,
-                //   textOff: L,
-                //   textOn: mll,
-                //   onDoubleTap: () {},
-                //   onSwipe: () {},
-                //   onTap: () {},
-                // ),
               ],
             ),
           ]),
         ),
+      ),
+    );
+  }
+
+  Future<dynamic> showDialogRate(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) => SimpleDialog(
+        children: [
+          Center(
+            child: BlocBuilder<WaterCubit, WaterInitState>(
+              builder: (context, state) {
+                return Text(
+                    'это ${state.rate.round()} % нормы воды для мужчин');
+              },
+            ),
+          ),
+          TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Closed'))
+        ],
       ),
     );
   }
