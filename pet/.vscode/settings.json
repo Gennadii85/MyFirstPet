@@ -17,9 +17,13 @@
         "Язык",
         "allwater",
         "Codegen",
+        "counterwater",
+        "countwater",
         "Cupertino",
         "drawerappbar",
+        "initwater",
         "namecolor",
+        "persent",
         "prefs",
         "Schyler",
         "sharedpreferences",
@@ -27,6 +31,7 @@
         "Sharet",
         "textcontr",
         "textcontroller",
+        "waterbloc",
         "waterkey"
     ]
 }

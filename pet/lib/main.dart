@@ -1,8 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pet/generated/codegen_loader.g.dart';
 import 'package:pet/todo/todolist.dart';
+import 'package:pet/water.dart';
+import 'package:pet/water/cubit/water_cubit_cubit.dart';
+import 'package:pet/water/water2.dart';
 import 'package:pet/weather/weather.dart';
 /* 
 flutter pub run easy_localization:generate -S "assets/translations"
@@ -35,13 +39,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      // debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.blueGrey),
-      home: const WeatherScreen(),
+    return BlocProvider(
+      create: (context) => WaterCubit(),
+      child: MaterialApp(
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        // debugShowCheckedModeBanner: false,
+        theme: ThemeData(primarySwatch: Colors.blueGrey),
+        home: const Water2(),
+      ),
     );
   }
 }
